@@ -22,7 +22,7 @@ var bodyParser = require('body-parser');
 var moment = require('moment');
 var plaid = require('plaid');
 
-var APP_PORT = envvar.number('APP_PORT', 80);
+var APP_PORT = envvar.number('APP_PORT', 8000);
 var PLAID_CLIENT_ID = envvar.string('PLAID_CLIENT_ID', '5f0380a44ba6640012dc8591');
 var PLAID_SECRET = envvar.string('PLAID_SECRET', '4a2ed07c9313ea2d242b6bb26bb67c');
 var PLAID_ENV = envvar.string('PLAID_ENV', 'sandbox');

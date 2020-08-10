@@ -29,7 +29,7 @@ PLAID_PRODUCTS='transactions' \
 PLAID_COUNTRY_CODES='US' \
 node index.js
 
-# Go to http://localhost:8000
+# Go to http://localhost:1337
 ```
 
 ### Link token creation and server-side configuration.
@@ -62,10 +62,10 @@ PLAID_SECRET='SECRET' \
 PLAID_ENV='sandbox' \
 PLAID_PRODUCTS='transactions' \
 PLAID_COUNTRY_CODES='GB,FR,ES,IE,NL' \
-PLAID_REDIRECT_URI='http://localhost:8000/oauth-response.html' \
+PLAID_REDIRECT_URI='http://localhost:1337/oauth-response.html' \
 node index.js
 
-# Go to http://localhost:8000
+# Go to http://localhost:1337
 ```
 
 [dashboard-api-section]: https://dashboard.plaid.com/team/api

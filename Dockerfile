@@ -6,7 +6,7 @@ WORKDIR /opt/app/node
 
 RUN npm install
 
-EXPOSE 1337
+EXPOSE 8080
 USER node
 ENTRYPOINT ["node"]
 CMD ["index.js"]

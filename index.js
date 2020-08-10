@@ -22,7 +22,7 @@ var bodyParser = require('body-parser');
 var moment = require('moment');
 var plaid = require('plaid');
 
-var APP_PORT = envvar.number('APP_PORT', 1337);
+var APP_PORT = envvar.number('APP_PORT', 8080);
 var PLAID_CLIENT_ID = envvar.string('PLAID_CLIENT_ID', '5f0380a44ba6640012dc8591');
 var PLAID_SECRET = envvar.string('PLAID_SECRET', '4a2ed07c9313ea2d242b6bb26bb67c');
 var PLAID_ENV = envvar.string('PLAID_ENV', 'sandbox');
@@ -37,7 +37,7 @@ var PLAID_COUNTRY_CODES = envvar.string('PLAID_COUNTRY_CODES', 'US').split(',');
 
 // Parameters used for the OAuth redirect Link flow.
 //
-// Set PLAID_REDIRECT_URI to 'http://localhost:1337/oauth-response.html'
+// Set PLAID_REDIRECT_URI to 'http://localhost:8080/oauth-response.html'
 // The OAuth redirect flow requires an endpoint on the developer's website
 // that the bank website should redirect to. You will need to configure
 // this redirect URI for your client ID through the Plaid developer dashboard

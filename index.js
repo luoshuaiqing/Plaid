@@ -24,8 +24,8 @@ var plaid = require('plaid');
 
 var APP_PORT = envvar.number('APP_PORT', 8080);
 var PLAID_CLIENT_ID = envvar.string('PLAID_CLIENT_ID', '5f0380a44ba6640012dc8591');
-var PLAID_SECRET = envvar.string('PLAID_SECRET', '4a2ed07c9313ea2d242b6bb26bb67c');
-var PLAID_ENV = envvar.string('PLAID_ENV', 'sandbox');
+var PLAID_SECRET = envvar.string('PLAID_SECRET', '1703255108472514841ad0f85ab392');
+var PLAID_ENV = envvar.string('PLAID_ENV', 'development');
 // PLAID_PRODUCTS is a comma-separated list of products to use when initializing
 // Link. Note that this list must contain 'assets' in order for the app to be
 // able to create and retrieve asset reports.
@@ -73,10 +73,10 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 
-app.get('/api/transactions', function(request, response, next) {
+app.get('/transactions', function(request, response, next) {
   var tokenId = request.query.plaid_token_id;
   console.log("token id: " + tokenId);
-  conn.query(`SELECT * FROM plaid_tokens where access_token = ${tokenId}`, function (err, result, fields) {
+  conn.query(`SELECT * FROM plaid_tokens where access_token = "${tokenId}"`, function (err, result, fields) {
     if (err || result.length == 0) {
       return response.json({
         error: "Please pass a valid plaid_token_id"

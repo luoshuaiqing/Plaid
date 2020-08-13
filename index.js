@@ -72,7 +72,8 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-
+// sample api call: /transactions?plaid_token_id=access-development-3962022b-56b9-4b49-b83a-4ecf1c9b3435
+// sample api call: /transactions?plaid_token_id=access-development-3962022b-56b9-4b49-b83a-4ecf1c9b3435&numDays=300
 app.get('/transactions', function(request, response, next) {
   var tokenId = request.query.plaid_token_id;
   console.log("token id: " + tokenId);
@@ -85,20 +86,34 @@ app.get('/transactions', function(request, response, next) {
     var accessToken = result[0].access_token;
     var itemId = result[0].item_id;
 
-    // Pull transactions for the Item for the last 30 days
-    var startDate = moment().subtract(30, 'days').format('YYYY-MM-DD');
+    // get 30 days by default
+    var startDate = moment().subtract(request.query.numDays ? request.query.numDays : 30, 'days').format('YYYY-MM-DD');
     var endDate = moment().format('YYYY-MM-DD');
     client.getTransactions(accessToken, startDate, endDate, {
       count: 250,
       offset: 0,
     }, function(error, transactionsResponse) {
-      if (error != null) {
-        prettyPrintResponse(error);
+      if (error) {
+        
         return response.json({
           error: error
         });
       } else {
-        prettyPrintResponse(transactionsResponse);
+        // store results into the database
+        transactionsResponse.transactions.forEach(element => {
+          let transactionId = element.transaction_id;
+          let name = element.name;
+          let amount = element.amount;
+          let date = element.date;
+          let transactionDetails = JSON.stringify(element);
+          
+          conn.query(`INSERT INTO plaid_transactions (transaction_id, name, amount, date, transaction_details) VALUES (${transactionId}, ${name}, ${amount}, ${date}, ${transactionDetails})
+          ON DUPLICATE transaction_id UPDATE transaction_details = ${transactionDetails}`, (err,rows) => {
+            if(err) throw err;
+          });
+        });
+
+        // prettyPrintResponse(transactionsResponse);
         response.json(transactionsResponse);
       }
     });
@@ -247,17 +262,6 @@ app.post('/api/set_access_token', function(request, response, next) {
       console.log('Data received from Db:');
       console.log(rows);
     });
-
-    // // save transactions to database here
-    // conn.query(`
-    //   INSERT INTO plaid_tokens (access_token, item_id)
-    //   VALUES ('${ACCESS_TOKEN}', '${ITEM_ID}')
-    // `, (err,rows) => {
-    //   if(err) throw err;
-    
-    //   console.log('Data received from Db:');
-    //   console.log(rows);
-    // });
 
 
     prettyPrintResponse(tokenResponse);

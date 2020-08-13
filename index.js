@@ -237,7 +237,7 @@ app.post('/api/set_access_token', function(request, response, next) {
     ACCESS_TOKEN = tokenResponse.access_token;
     ITEM_ID = tokenResponse.item_id;
 
-    // save to database here
+    // save access token and item id to database here
     conn.query(`
       INSERT INTO plaid_tokens (access_token, item_id)
       VALUES ('${ACCESS_TOKEN}', '${ITEM_ID}')
@@ -247,6 +247,17 @@ app.post('/api/set_access_token', function(request, response, next) {
       console.log('Data received from Db:');
       console.log(rows);
     });
+
+    // // save transactions to database here
+    // conn.query(`
+    //   INSERT INTO plaid_tokens (access_token, item_id)
+    //   VALUES ('${ACCESS_TOKEN}', '${ITEM_ID}')
+    // `, (err,rows) => {
+    //   if(err) throw err;
+    
+    //   console.log('Data received from Db:');
+    //   console.log(rows);
+    // });
 
 
     prettyPrintResponse(tokenResponse);

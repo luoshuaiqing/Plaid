@@ -107,8 +107,8 @@ app.get('/transactions', function(request, response, next) {
           let date = element.date;
           let transactionDetails = JSON.stringify(element);
           
-          conn.query(`INSERT INTO plaid_transactions (transaction_id, name, amount, date, transaction_details) VALUES (${transactionId}, ${name}, ${amount}, ${date}, ${transactionDetails})
-          ON DUPLICATE transaction_id UPDATE transaction_details = ${transactionDetails}`, (err,rows) => {
+          conn.query(`INSERT INTO plaid_transactions (transaction_id, name, amount, date, details) VALUES ("${transactionId}", "${name}", "${amount}", "${date}", '${transactionDetails}') 
+          ON DUPLICATE transaction_id UPDATE details = '${transactionDetails}'`, (err,rows) => {
             if(err) throw err;
           });
         });

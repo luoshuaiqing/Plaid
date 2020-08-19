@@ -2,12 +2,20 @@
 
 // connect with mysql database
 const mysql = require('mysql');
+// const conn = mysql.createConnection({
+//   host: 'offer-staging.cbhh6qzsa0mk.us-west-1.rds.amazonaws.com',
+//   user: 'ywgr_db_user',
+//   password: 'YWgruser2019!',
+//   database: 'ywapp_gr_db'
+// });
+
 const conn = mysql.createConnection({
-  host: 'offer-staging.cbhh6qzsa0mk.us-west-1.rds.amazonaws.com',
-  user: 'ywgr_db_user',
-  password: 'YWgruser2019!',
-  database: 'ywapp_gr_db'
+  host: '161.35.228.223',
+  user: 'admin',
+  password: 'YwReconAdmin2020!',
+  database: 'plaid'
 });
+
 conn.connect((err) => {
   if (err) throw err;
   console.log('Connected!');
